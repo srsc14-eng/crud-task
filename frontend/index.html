@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Les tâches de Bébou et Bichon</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="header">
+    <div class="header-content">
+      <div class="photo-container" onclick="document.getElementById('photoInput').click()">
+        <img src="bebou.jpeg" alt="Photo de ma femme" id="photoPreview">
+      </div>
+      <input type="file" id="photoInput" class="photo-input" accept="image/*">
+      <h1>Les tâches de Bébou et Bichon</h1>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="form-container">
+      <h2>Ajouter une tâche</h2>
+      <div class="form-group">
+        <label for="title">Titre</label>
+        <input type="text" id="title" placeholder="Titre de la tâche">
+      </div>
+      <div class="form-group">
+        <label for="description">Description</label>
+        <textarea id="description" placeholder="Description de la tâche"></textarea>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label for="status">Statut</label>
+          <select id="status">
+            <option value="pending">En attente</option>
+            <option value="in_progress">En cours</option>
+            <option value="completed">Terminée</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="priority">Priorité</label>
+          <select id="priority">
+            <option value="low">Basse</option>
+            <option value="medium">Moyenne</option>
+            <option value="high">Haute</option>
+          </select>
+        </div>
+      </div>
+      <button id="addTaskBtn">Ajouter</button>
+    </div>
+
+    <div class="tasks-container" id="tasksContainer"></div>
+  </main>
+
+  <div class="notification" id="notification"></div>
+
+  <script src="main.js"></script>
+</body>
+</html>
