@@ -25,7 +25,7 @@ function renderTasks() {
     return;
   }
 
-  tasks.forEach((task, index) => {
+  tasks.forEach((task) => {
     const taskCard = document.createElement('div');
     taskCard.className = `task-card priority-${task.priority}`;
     taskCard.innerHTML = `
@@ -67,8 +67,41 @@ async function fetchTasks() {
   }
 }
 
-// Ajouter une tâche
-document.getElementById('addTaskBtn').addEventListener('click', async () => {
+// Ajouter ou modifier une tâche
+async function saveTask(task) {
+  try {
+    let res, data;
+    if (task.id) {
+      // Modification
+      res = await fetch(`https://crud-task-pt67.onrender.com/tasks/${task.id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(task)
+      });
+      data = await res.json();
+      // Remplace la tâche modifiée dans le tableau local
+      tasks = tasks.map(t => t.id === data.id ? data : t);
+      showNotification('Tâche modifiée ✨');
+    } else {
+      // Nouvelle tâche
+      res = await fetch('https://crud-task-pt67.onrender.com/tasks', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(task)
+      });
+      data = await res.json();
+      tasks.push(data);
+      showNotification('Tâche ajoutée ☕');
+    }
+    renderTasks();
+  } catch (err) {
+    showNotification('Erreur lors de l\'enregistrement', 'error');
+    console.error(err);
+  }
+}
+
+// Ajouter une tâche via le bouton
+document.getElementById('addTaskBtn').addEventListener('click', () => {
   const title = document.getElementById('title').value.trim();
   const description = document.getElementById('description').value.trim();
   const status = document.getElementById('status').value;
@@ -76,29 +109,24 @@ document.getElementById('addTaskBtn').addEventListener('click', async () => {
 
   if (!title) return showNotification('Le titre est obligatoire', 'error');
 
-  try {
-    const res = await fetch('http://localhost:3000/tasks', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ title, description, status, priority })
-    });
-    const newTask = await res.json();
-    tasks.push(newTask);
+  const editingId = document.getElementById('addTaskBtn').dataset.editingId;
+  const task = { title, description, status, priority };
+  if (editingId) task.id = parseInt(editingId);
 
-    document.getElementById('title').value = '';
-    document.getElementById('description').value = '';
-    renderTasks();
-    showNotification('Tâche ajoutée ☕');
-  } catch (err) {
-    showNotification('Erreur lors de l\'ajout', 'error');
-    console.error(err);
-  }
+  saveTask(task);
+
+  // Reset formulaire
+  document.getElementById('title').value = '';
+  document.getElementById('description').value = '';
+  document.getElementById('status').value = 'pending';
+  document.getElementById('priority').value = 'low';
+  document.getElementById('addTaskBtn').removeAttribute('data-editing-id');
 });
 
 // Supprimer une tâche
 async function deleteTask(id) {
   try {
-    await fetch(`http://localhost:3000/tasks/${id}`, { method: 'DELETE' });
+    await fetch(`https://crud-task-pt67.onrender.com/tasks/${id}`, { method: 'DELETE' });
     tasks = tasks.filter(t => t.id !== id);
     renderTasks();
     showNotification('Tâche supprimée');
@@ -108,7 +136,7 @@ async function deleteTask(id) {
   }
 }
 
-// Modifier une tâche
+// Modifier une tâche (pré-remplir le formulaire)
 function editTask(id) {
   const task = tasks.find(t => t.id === id);
   if (!task) return;
@@ -118,9 +146,7 @@ function editTask(id) {
   document.getElementById('status').value = task.status;
   document.getElementById('priority').value = task.priority;
 
-  // Supprime temporairement la tâche pour éviter doublon à l'ajout
-  tasks = tasks.filter(t => t.id !== id);
-  renderTasks();
+  document.getElementById('addTaskBtn').dataset.editingId = task.id;
   showNotification('Modifiez la tâche et cliquez sur Ajouter', 'success');
 }
 
