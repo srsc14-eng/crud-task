@@ -124,8 +124,7 @@ label {
 }
 
 input[type="text"],
-textarea,
-select {
+textarea {
   width: 100%;
   padding: 12px 16px;
   border: 2px solid rgba(139, 90, 60, 0.25);
@@ -138,12 +137,44 @@ select {
 }
 
 input[type="text"]:focus,
-textarea:focus,
-select:focus {
+textarea:focus {
   outline: none;
   border-color: #8b5a3c;
   box-shadow: 0 0 0 4px rgba(139, 90, 60, 0.1);
   background: rgba(255, 255, 255, 1);
+}
+
+select {
+  width: 100%;
+  padding: 12px 16px;
+  border: 2px solid rgba(139, 90, 60, 0.25);
+  border-radius: 16px;
+  font-size: 16px;
+  background: rgba(255, 255, 255, 0.9);
+  transition: all 0.2s ease;
+  font-family: inherit;
+  color: #3d2817;
+  cursor: pointer;
+  appearance: none;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%238b5a3c' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  background-size: 20px;
+  padding-right: 40px;
+}
+
+select:focus {
+  outline: none;
+  border-color: #8b5a3c;
+  box-shadow: 0 0 0 4px rgba(139, 90, 60, 0.1);
+  background-color: rgba(255, 255, 255, 1);
+}
+
+select option {
+  padding: 12px;
+  font-size: 16px;
+  background: white;
+  color: #3d2817;
 }
 
 textarea {
@@ -200,24 +231,9 @@ button:active {
   backdrop-filter: blur(10px);
 }
 
-.task-card::before {
-  content: '☕';
-  position: absolute;
-  top: 12px;
-  right: 12px;
-  font-size: 20px;
-  opacity: 0.2;
-  transition: all 0.3s ease;
-}
-
 .task-card:hover {
   box-shadow: 0 12px 32px rgba(139, 90, 60, 0.2);
   transform: translateY(-4px);
-}
-
-.task-card:hover::before {
-  opacity: 0.5;
-  transform: scale(1.2);
 }
 
 .task-header {
@@ -300,19 +316,19 @@ button:active {
 }
 
 .btn-edit {
-  background: linear-gradient(135deg, #b89968, #c9a882);
+  background: linear-gradient(135deg, #6d9c7a, #7fb08d);
 }
 
 .btn-edit:hover {
-  background: linear-gradient(135deg, #c9a882, #d4b595);
+  background: linear-gradient(135deg, #7fb08d, #8ebf9d);
 }
 
 .btn-delete {
-  background: linear-gradient(135deg, #a0764f, #b89968);
+  background: linear-gradient(135deg, #c8896b, #d49a7d);
 }
 
 .btn-delete:hover {
-  background: linear-gradient(135deg, #b89968, #c9a882);
+  background: linear-gradient(135deg, #d49a7d, #dda88f);
 }
 
 .empty-state {
@@ -465,6 +481,32 @@ button:active {
     right: 16px;
     top: 16px;
     width: auto;
+  }
+
+  /* Amélioration des selects sur mobile */
+  select {
+    padding: 14px 40px 14px 16px;
+    font-size: 17px;
+    border-radius: 14px;
+    background-size: 24px;
+    background-position: right 10px center;
+    min-height: 50px;
+  }
+
+  select option {
+    padding: 14px;
+    font-size: 17px;
+  }
+
+  label {
+    font-size: 15px;
+    margin-bottom: 10px;
+  }
+
+  input[type="text"],
+  textarea {
+    font-size: 17px;
+    padding: 14px 16px;
   }
 }
 
