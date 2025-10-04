@@ -1,14 +1,14 @@
 {
-  "name": "task-manager-backend",
+  "name": "crud-task-backend",
   "version": "1.0.0",
   "main": "index.js",
-  "license": "MIT",
+  "scripts": {
+    "start": "node index.js"
+  },
   "dependencies": {
+    "express": "^4.18.2",
     "body-parser": "^1.20.2",
     "cors": "^2.8.5",
-    "dotenv": "^17.2.3",
-    "express": "^4.18.2",
-    "mysql2": "^3.4.1",
-    "pg": "^8.16.3"
+    "pg": "^8.11.1"
   }
 }

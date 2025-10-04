@@ -58,7 +58,7 @@ function showNotification(msg, type='success') {
 // Charger les tâches depuis le backend
 async function fetchTasks() {
   try {
-    const res = await fetch('http://localhost:3000/tasks');
+    const res = await fetch('https://crud-task-pt67.onrender.com/tasks');
     tasks = await res.json();
     renderTasks();
   } catch (err) {
